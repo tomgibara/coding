@@ -17,7 +17,6 @@
 package com.tomgibara.coding;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import com.tomgibara.bits.BitVector;
 import com.tomgibara.bits.NullBitWriter;

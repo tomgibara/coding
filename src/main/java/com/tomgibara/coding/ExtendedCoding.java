@@ -36,8 +36,6 @@ import com.tomgibara.bits.BitWriter;
 //TODO investigate adding support for a fluent Chain
 public class ExtendedCoding implements Coding {
 
-	private static final BigInteger MINUS_ONE = BigInteger.ONE.negate();
-
 	// fields
 
 	private final UniversalCoding coding;
@@ -69,7 +67,7 @@ public class ExtendedCoding implements Coding {
 		return coding;
 	}
 
-    // delegated coding methods
+	// delegated coding methods
 
 	@Override
 	public int encodePositiveInt(BitWriter writer, int value) {

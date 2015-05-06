@@ -277,6 +277,7 @@ public final class CodedStreams {
 	 * @return the array read, never null
 	 */
 
+	@SuppressWarnings("unchecked")
 	public static <E extends Enum<?>> E[] readEnumArray(CodedReader reader, Class<E> enumClass) {
 		if (enumClass == null) throw new IllegalArgumentException("null enumClass");
 		E[] values = enumClass.getEnumConstants();

@@ -38,6 +38,10 @@ import com.tomgibara.coding.HuffmanCoding.UnorderedFrequencies;
 
 public class HuffmanCodingTest extends TestCase {
 
+	static long countBits(BitReader reader) {
+		return reader.skipBits(Long.MAX_VALUE);
+	}
+
 //	public void testEncode() {
 //	  test(new long[] {10, 15, 30, 16, 29});
 //	  test(new long[] {20, 20, 20, 20, 20});
@@ -121,6 +125,7 @@ public class HuffmanCodingTest extends TestCase {
 
 		// can't assert this because values are effectively written out in a different order
 		//assertTrue(BitStreams.isSameBits(r1, r2));
+		assertEquals(countBits(r1), countBits(r2));
 	}
 
 	private static BitReader testDecode(HuffmanCoding.Frequencies frequencies) {
@@ -128,13 +133,10 @@ public class HuffmanCodingTest extends TestCase {
 		int[] memory = new int[1000];
 		int count = frequencies.getCorrespondence().getCount();
 		IntArrayBitWriter w = new IntArrayBitWriter(memory);
-//		PrintStreamBitWriter d = new PrintStreamBitWriter();
 		for (int i = 0; i < count; i++) {
 			huffman.encodePositiveInt(w, i);
-//			huffman.encodePositiveInt(d, i);
 		}
 		w.flush();
-//		System.out.println();
 
 		IntArrayBitReader r = new IntArrayBitReader(memory);
 		for (int i = 0; i < count; i++) {
