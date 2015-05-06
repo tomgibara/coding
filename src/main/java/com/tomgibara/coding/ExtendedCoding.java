@@ -204,6 +204,62 @@ public class ExtendedCoding implements Coding {
 	}
 
 	/**
+	 * Writes a float. NaN and infinite values are not supported.
+	 *
+	 * @param writer
+	 *            the writer that will store the encoded value
+	 * @param value
+	 *            a float, not NaN or +/- infinity
+	 * @return the number of bits written
+	 * @throws BitStreamException
+	 *             if there was a problem writing bits to the stream
+	 * @throws IllegalArgumentException
+	 *             if the supplied value is infinite or NaN.
+	 */
+
+	public int encodeFloat(BitWriter writer, float value) {
+		if (Float.isNaN(value) || Float.isInfinite(value)) throw new IllegalArgumentException();
+		int bits = Float.floatToIntBits(value);
+		int sign = bits & 0x80000000;
+		if (sign == bits) return coding.unsafeEncodePositiveInt(writer, sign == 0 ? 0 : 1);
+
+		int mantissa = bits & 0x007fffff;
+		if (sign == 0) {
+			mantissa = (mantissa << 1) + 2;
+		} else {
+			mantissa = (mantissa << 1) + 3;
+		}
+		int exponent = ((bits & 0x7f800000) >> 23) - 127;
+		return coding.unsafeEncodePositiveInt(writer, mantissa) + encodeInt(writer, exponent);
+	}
+
+	/**
+	 * Reads a float.
+	 *
+	 * @param reader
+	 *            the reader that will supply the bit encoding
+	 * @return a float, never NaN or infinite
+	 * @throws BitStreamException
+	 *             if there was a problem reading bits from the stream
+	 */
+
+	public float decodeFloat(BitReader reader) {
+		int mantissa = decodePositiveInt(reader);
+		if (mantissa == 0) return 0.0f;
+		if (mantissa == 1) return -0.0f;
+		int exponent = decodeInt(reader);
+		int bits = (exponent + 127) << 23;
+		if ((mantissa & 1) == 0) {
+			mantissa = (mantissa - 2) >> 1;
+		} else {
+			bits |= 0x80000000;
+			mantissa = (mantissa - 3) >> 1;
+		}
+		bits |= mantissa;
+		return Float.intBitsToFloat(bits);
+	}
+
+	/**
 	 * Writes a double. NaN and infinite values are not supported.
 	 *
 	 * @param writer
@@ -258,7 +314,7 @@ public class ExtendedCoding implements Coding {
 		bits |= mantissa;
 		return Double.longBitsToDouble(bits);
 	}
-
+	
 	/**
 	 * Writes a BigDecimal.
 	 *

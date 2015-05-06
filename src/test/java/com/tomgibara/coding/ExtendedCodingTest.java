@@ -213,6 +213,45 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 		}
 	}
 
+	public void testFloat() {
+		for (C coding : getCodings()) {
+			if (isEncodableValueLimited(coding)) return;
+			int bytes = 16;
+			int[] memory = new int[bytes];
+			IntArrayBitWriter writer = new IntArrayBitWriter(memory, bytes * 8);
+			IntArrayBitReader reader = new IntArrayBitReader(memory, bytes * 8);
+			checkFloat(writer, reader, 0.0f);
+			checkFloat(writer, reader, -0.0f);
+			checkFloat(writer, reader, 1.0f);
+			checkFloat(writer, reader, 2.0f);
+			checkFloat(writer, reader, 3.0f);
+			checkFloat(writer, reader, 4.0f);
+
+			for (float d = -100.0f; d < 100.0f; d += 0.1f) {
+				checkFloat(writer, reader, d);
+			}
+
+			Random r = new Random(0L);
+			for (int i = 0; i < 10000; i++) {
+				float f = Float.intBitsToFloat(r.nextInt());
+				if (Float.isNaN(f) || Float.isInfinite(f)) continue;
+				checkFloat(writer, reader, f);
+			}
+		}
+	}
+
+	private void checkFloat(IntArrayBitWriter writer, IntArrayBitReader reader, float f) {
+		for (C coding : getCodings()) {
+			if (isEncodableValueLimited(coding)) return;
+			writer.setPosition(0);
+			coding.encodeFloat(writer, f);
+			writer.flush();
+			reader.setPosition(0);
+			float g = coding.decodeFloat(reader);
+			assertEquals(f, g);
+		}
+	}
+
 	public void testDecimal() {
 		for (C coding : getCodings()) {
 			if (isEncodableValueLimited(coding)) return;
