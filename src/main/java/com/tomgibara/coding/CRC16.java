@@ -16,8 +16,9 @@
  */
 package com.tomgibara.coding;
 
-//TODO this could be modelled as a Hash.
-public final class CRC16 {
+//TODO this could be modelled as a Hash, except hash abstractions are invariably
+// byte based based. Retain class can consider future BitHash abstraction.
+/*public*/ final class CRC16 {
 
 	// statics
 
