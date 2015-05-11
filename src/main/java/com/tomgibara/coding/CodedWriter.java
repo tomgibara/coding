@@ -161,6 +161,20 @@ public class CodedWriter {
 	}
 
 	/**
+	 * Writes a float to the writer.
+	 *
+	 * @param value
+	 *            a float
+	 * @return the number of bits written
+	 * @throws BitStreamException
+	 *             if there was a problem writing bits to the stream
+	 */
+
+	public int writeFloat(float value) {
+		return coding.encodeFloat(writer, value);
+	}
+
+	/**
 	 * Writes a double to the writer.
 	 *
 	 * @param value

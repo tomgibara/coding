@@ -149,6 +149,18 @@ public class CodedReader {
 	}
 
 	/**
+	 * Decodes a float from the reader.
+	 *
+	 * @return a float
+	 * @throws BitStreamException
+	 *             if there was a problem reading bits from the stream
+	 */
+
+	public float readFloat() {
+		return coding.decodeFloat(reader);
+	}
+
+	/**
 	 * Decodes a double from the reader.
 	 *
 	 * @return a double

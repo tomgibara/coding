@@ -28,7 +28,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tomgibara.bits.BitReader;
 import com.tomgibara.bits.BitStreamException;
+import com.tomgibara.bits.BitVector;
 import com.tomgibara.bits.BitWriter;
 import com.tomgibara.bits.InputStreamBitReader;
 import com.tomgibara.bits.OutputStreamBitWriter;
@@ -135,9 +137,8 @@ public final class CodedStreams {
 		if (!comp.isPrimitive()) throw new IllegalArgumentException("array components not primitives");
 
 		int length = Array.getLength(array);
-		writer.writePositiveInt(length);
+		int c = writer.writePositiveInt(length);
 		//TODO would love a switch statement here
-		int c = 0;
 		if (comp == boolean.class) {
 			BitWriter w = writer.getWriter();
 			boolean[] a = (boolean[]) array;
@@ -155,9 +156,8 @@ public final class CodedStreams {
 			long[] a = (long[]) array;
 			for (int i = 0; i < a.length; i++) c += writer.writeLong(a[i]);
 		} else if (comp == float.class) {
-			//TODO add float
 			float[] a = (float[]) array;
-			for (int i = 0; i < a.length; i++) c += writer.writeDouble(a[i]);
+			for (int i = 0; i < a.length; i++) c += writer.writeFloat(a[i]);
 		} else if (comp == double.class) {
 			double[] a = (double[]) array;
 			for (int i = 0; i < a.length; i++) c += writer.writeDouble(a[i]);
@@ -168,6 +168,61 @@ public final class CodedStreams {
 			throw new UnsupportedOperationException("unsupported primitive type " + comp.getName());
 		}
 		return c;
+	}
+
+	/**
+	 * Reads an array of booleans from a coded writer. The length is read,
+	 * followed by each boolean in the array.
+	 *
+	 * @param reader
+	 *            the reader from which the array will be read
+	 * @return the array read, never null
+	 */
+
+	public static boolean[] readBooleanArray(CodedReader reader) {
+		int length = reader.readPositiveInt();
+		boolean[] a = new boolean[length];
+		BitReader r = reader.getReader();
+		for (int i = 0; i < a.length; i++) {
+			a[i] = r.readBoolean();
+		}
+		return a;
+	}
+
+	/**
+	 * Reads an array of bytes from a coded writer. The length is read, followed
+	 * by each byte in the array.
+	 *
+	 * @param reader
+	 *            the reader from which the array will be read
+	 * @return the array read, never null
+	 */
+
+	public static byte[] readByteArray(CodedReader reader) {
+		int length = reader.readPositiveInt();
+		byte[] a = new byte[length];
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (byte) reader.readInt();
+		}
+		return a;
+	}
+
+	/**
+	 * Reads an array of shorts from a coded writer. The length is read, followed
+	 * by each short in the array.
+	 *
+	 * @param reader
+	 *            the reader from which the array will be read
+	 * @return the array read, never null
+	 */
+
+	public static short[] readShortArray(CodedReader reader) {
+		int length = reader.readPositiveInt();
+		short[] a = new short[length];
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (short) reader.readInt();
+		}
+		return a;
 	}
 
 	/**
@@ -188,7 +243,6 @@ public final class CodedStreams {
 		return a;
 	}
 
-	//TODO add other methods
 	/**
 	 * Reads an array of longs from a coded writer. The length is read, followed
 	 * by each long in the array.
@@ -203,6 +257,60 @@ public final class CodedStreams {
 		long[] a = new long[length];
 		for (int i = 0; i < a.length; i++) {
 			a[i] = reader.readLong();
+		}
+		return a;
+	}
+
+	/**
+	 * Reads an array of floats from a coded writer. The length is read, followed
+	 * by each long in the array.
+	 *
+	 * @param reader
+	 *            the reader from which the array will be read
+	 * @return the array read, never null
+	 */
+
+	public static float[] readFloatArray(CodedReader reader) {
+		int length = reader.readPositiveInt();
+		float[] a = new float[length];
+		for (int i = 0; i < a.length; i++) {
+			a[i] = reader.readFloat();
+		}
+		return a;
+	}
+
+	/**
+	 * Reads an array of doubles from a coded writer. The length is read, followed
+	 * by each long in the array.
+	 *
+	 * @param reader
+	 *            the reader from which the array will be read
+	 * @return the array read, never null
+	 */
+
+	public static double[] readDoubleArray(CodedReader reader) {
+		int length = reader.readPositiveInt();
+		double[] a = new double[length];
+		for (int i = 0; i < a.length; i++) {
+			a[i] = reader.readDouble();
+		}
+		return a;
+	}
+
+	/**
+	 * Reads an array of chars from a coded writer. The length is read, followed
+	 * by each long in the array.
+	 *
+	 * @param reader
+	 *            the reader from which the array will be read
+	 * @return the array read, never null
+	 */
+
+	public static char[] readCharArray(CodedReader reader) {
+		int length = reader.readPositiveInt();
+		char[] a = new char[length];
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (char) reader.readPositiveInt();
 		}
 		return a;
 	}
