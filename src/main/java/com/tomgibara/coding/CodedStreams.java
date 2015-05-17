@@ -356,6 +356,38 @@ public final class CodedStreams {
 	}
 
 	/**
+	 * Writes an enum value to a coded writer as its ordinal value
+	 *
+	 * @param writer
+	 *            the writer to which the enum value will be written
+	 * @param array
+	 *            the enum value to write
+	 * @return the number of bits written
+	 */
+
+	public static <E extends Enum<?>> int writeEnum(CodedWriter writer, E e) {
+		return writer.writePositiveInt(e.ordinal());
+	}
+
+	/**
+	 * Reads an enum value from a coded reader. The value's ordinal is read and
+	 * returned as an enum value object.
+	 *
+	 * @param reader
+	 *            the reader from which the enum value will be read
+	 * @return the enum value, never null
+	 */
+
+	//TODO handle value too large
+	public static <E extends Enum<?>> E readEnum(CodedReader reader, Class<E> enumClass) {
+		if (enumClass == null) throw new IllegalArgumentException("null enumClass");
+		E[] values = enumClass.getEnumConstants();
+		if (values == null) throw new IllegalArgumentException("not an enum class");
+		int i = reader.readPositiveInt();
+		return values[i];
+	}
+
+	/**
 	 * Writes an array of enums to a coded writer. The length is written,
 	 * followed by the ordinal of every enum in the array.
 	 *
@@ -377,7 +409,7 @@ public final class CodedStreams {
 	}
 
 	/**
-	 * Reads an array of enums from a coded writer. The length is read, followed
+	 * Reads an array of enums from a coded reader. The length is read, followed
 	 * by the ordinal of each enum in the array.
 	 *
 	 * @param reader
@@ -386,6 +418,7 @@ public final class CodedStreams {
 	 */
 
 	@SuppressWarnings("unchecked")
+	//TODO handle value too large
 	public static <E extends Enum<?>> E[] readEnumArray(CodedReader reader, Class<E> enumClass) {
 		if (enumClass == null) throw new IllegalArgumentException("null enumClass");
 		E[] values = enumClass.getEnumConstants();
@@ -426,6 +459,7 @@ public final class CodedStreams {
 	 * @return the list read, never null
 	 */
 
+	//TODO handle value too large
 	public static <E extends Enum<?>> List<E> readEnumList(CodedReader reader, Class<E> enumClass) {
 		if (enumClass == null) throw new IllegalArgumentException("null enumClass");
 		E[] values = enumClass.getEnumConstants();
