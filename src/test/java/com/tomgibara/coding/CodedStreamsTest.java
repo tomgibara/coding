@@ -97,7 +97,7 @@ public class CodedStreamsTest extends TestCase {
 		BitVectorWriter writer = new BitVectorWriter();
 		CodedWriter w = new CodedWriter(writer, coding);
 		int bits = CodedStreams.writePrimitiveArray(w, array);
-		BitVector vector = writer.toBitVector();
+		BitVector vector = writer.toImmutableBitVector();
 		assertEquals(bits, vector.size());
 		
 		BitReader reader = vector.openReader();
