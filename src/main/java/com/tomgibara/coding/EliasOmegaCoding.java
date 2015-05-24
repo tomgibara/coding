@@ -92,7 +92,7 @@ final public class EliasOmegaCoding extends UniversalCoding {
 		if (!reader.readBoolean()) return value - 1;
 		value = (1 << value) | reader.read(value);
 		if (!reader.readBoolean()) return value - 1;
-		//TODO could check value < 32 to catch call decoding errors
+		if (value >= 32) throw new BitStreamException("value too large for int");
 		value = (1 << value) | reader.read(value);
 		if (reader.readBoolean()) throw new BitStreamException("value too large for int");
 		return value - 1;
@@ -115,7 +115,7 @@ final public class EliasOmegaCoding extends UniversalCoding {
 		if (!reader.readBoolean()) return value - 1L;
 		value = (1 << value) | reader.read(value);
 		if (!reader.readBoolean()) return value - 1L;
-		//TODO could check value < 64 to catch call decoding errors
+		if (value >= 64) throw new BitStreamException("value too large for long");
 		long lvalue = (1L << value) | reader.readLong(value);
 		if (reader.readBoolean()) throw new BitStreamException("value too large for long");
 		return lvalue - 1L;
