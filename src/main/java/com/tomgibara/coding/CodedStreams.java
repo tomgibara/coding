@@ -72,7 +72,7 @@ public final class CodedStreams {
 		/**
 		 * Called to read data from a {@link CodedWriter}.
 		 *
-		 * @param writer to which data should be written
+		 * @param reader from which data should be read
 		 */
 
 		void readFrom(CodedReader reader);
@@ -360,8 +360,10 @@ public final class CodedStreams {
 	 *
 	 * @param writer
 	 *            the writer to which the enum value will be written
-	 * @param array
+	 * @param e
 	 *            the enum value to write
+	 * @param <E>
+	 *            the enum type
 	 * @return the number of bits written
 	 */
 
@@ -375,6 +377,10 @@ public final class CodedStreams {
 	 *
 	 * @param reader
 	 *            the reader from which the enum value will be read
+	 * @param enumClass
+	 *            the class of the enum to be read
+	 * @param <E>
+	 *            the enum type
 	 * @return the enum value, never null
 	 */
 
@@ -393,8 +399,10 @@ public final class CodedStreams {
 	 *
 	 * @param writer
 	 *            the writer to which values will be written
-	 * @param array
-	 *            the array to write, not null
+	 * @param enums
+	 *            the array of enums to write, not null
+	 * @param <E>
+	 *            the enum type
 	 * @return the number of bits written
 	 */
 
@@ -414,6 +422,10 @@ public final class CodedStreams {
 	 *
 	 * @param reader
 	 *            the reader from which the array will be read
+	 * @param enumClass
+	 *            the class of the enum to be read
+	 * @param <E>
+	 *            the enum type
 	 * @return the array read, never null
 	 */
 
@@ -439,6 +451,8 @@ public final class CodedStreams {
 	 *            the writer to which values will be written
 	 * @param list
 	 *            a list of enums containing no nulls
+	 * @param <E>
+	 *            the enum type
 	 * @return the number of bits written
 	 */
 
@@ -456,6 +470,10 @@ public final class CodedStreams {
 	 *
 	 * @param reader
 	 *            the reader from which the array will be read
+	 * @param enumClass
+	 *            the class of the enum to be read
+	 * @param <E>
+	 *            the enum type
 	 * @return the list read, never null
 	 */
 

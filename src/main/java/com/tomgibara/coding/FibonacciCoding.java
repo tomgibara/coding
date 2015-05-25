@@ -29,13 +29,13 @@ import com.tomgibara.bits.BitWriter;
 /**
  * Implements Fibonacci coding. All code words end with "11". Note that in
  * contrast to most presentations of Fibonacci coding, the mapping from integers
- * to code words begins at zero, so that 0 -> "11", 1 -> "011" and so on.
+ * to code words begins at zero, so that 0 -&gt; "11", 1 -&gt; "011" and so on.
  *
  * The singleton instance of this class is available from
  * {@link FibonacciCoding#instance}.
  *
  * @author Tom Gibara
- * @see http://en.wikipedia.org/wiki/Fibonacci_coding
+ * @see <a href="http://en.wikipedia.org/wiki/Fibonacci_coding">Fibonacci coding</a>
  */
 public final class FibonacciCoding extends UniversalCoding {
 

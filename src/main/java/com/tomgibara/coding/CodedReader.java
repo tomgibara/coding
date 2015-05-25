@@ -60,6 +60,8 @@ public class CodedReader {
 
 	/**
 	 * The reader that supplies the bits for the coding.
+	 * 
+	 * @return the bit reader
 	 */
 
 	public BitReader getReader() {
@@ -68,6 +70,8 @@ public class CodedReader {
 
 	/**
 	 * The coding that decodes the bits.
+	 * 
+	 * @return the coding
 	 */
 
 	public ExtendedCoding getCoding() {

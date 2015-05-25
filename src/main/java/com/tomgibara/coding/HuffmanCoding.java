@@ -44,7 +44,7 @@ import com.tomgibara.bits.IntArrayBitWriter;
  * Note that only values with non-zero frequencies can be encoded/decoded.
  *
  * @author Tom Gibara
- * @see http://en.wikipedia.org/wiki/Huffman_coding
+ * @see <a href="http://en.wikipedia.org/wiki/Huffman_coding">Huffman coding</a>
  */
 
 //TODO could define equality based on equality of dictionaries
@@ -153,8 +153,8 @@ public class HuffmanCoding implements Coding {
 
 		/**
 		 * The frequency at a particular index. Frequencies are monotonically
-		 * decreasing with respect to the index. In other words i < j implies
-		 * freq_i >= freq_j.
+		 * decreasing with respect to the index. In other words i &lt; j implies
+		 * freq_i &gt;= freq_j.
 		 *
 		 * @param index
 		 *            a non-negative number not meeting or exceeding the count

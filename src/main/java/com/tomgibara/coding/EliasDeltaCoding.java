@@ -25,13 +25,13 @@ import com.tomgibara.bits.BitWriter;
 /**
  * Implements Elias delta coding. Note that in contrast to most presentations of
  * Elias delta coding, the mapping from integers to code words begins at zero so that
- * 0 -> "1", 1 -> "0100" and so on.
+ * 0 -&gt; "1", 1 -&gt; "0100" and so on.
  *
  * The singleton instance of this class is available from
  * {@link EliasDeltaCoding#instance}.
  *
  * @author Tom Gibara
- * @see http://en.wikipedia.org/wiki/Elias_delta_coding
+ * @see <a href="http://en.wikipedia.org/wiki/Elias_delta_coding">Elias delta coding</a>
  */
 
 //TODO use readUntil method for implementation?

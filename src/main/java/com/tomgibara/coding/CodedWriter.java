@@ -60,6 +60,8 @@ public class CodedWriter {
 
 	/**
 	 * The writer that receives the bits of the encoding.
+	 *
+	 * @return the bit writer
 	 */
 
 	public BitWriter getWriter() {
@@ -68,6 +70,8 @@ public class CodedWriter {
 
 	/**
 	 * The coding that encodes the values.
+	 *
+	 * @return the coding
 	 */
 
 	public ExtendedCoding getCoding() {

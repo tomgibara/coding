@@ -26,7 +26,7 @@ import com.tomgibara.bits.BitWriter;
  * Implements truncated binary coding.
  *
  * @author Tom Gibara
- * @see http://en.wikipedia.org/wiki/Truncated_binary_encoding
+ * @see <a href="http://en.wikipedia.org/wiki/Truncated_binary_encoding">Truncated binary encoding</a>
  */
 
 public final class TruncatedBinaryCoding implements Coding {

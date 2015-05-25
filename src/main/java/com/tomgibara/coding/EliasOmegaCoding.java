@@ -26,13 +26,13 @@ import com.tomgibara.bits.BitWriter;
 /**
  * Implements Elias omega coding. Note that in contrast to most presentations of
  * Elias omega coding, the mapping from integers to code words begins at zero so
- * that 0 -> "0", 1 -> "100" and so on.
+ * that 0 -&gt; "0", 1 -&gt; "100" and so on.
  *
  * The singleton instance of this class is available from
  * {@link EliasOmegaCoding#instance}.
  *
  * @author Tom Gibara
- * @see http://en.wikipedia.org/wiki/Elias_omega_coding
+ * @see <a href="http://en.wikipedia.org/wiki/Elias_omega_coding">Elias omega coding</a>
  */
 
 final public class EliasOmegaCoding extends UniversalCoding {

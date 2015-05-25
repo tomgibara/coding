@@ -35,7 +35,7 @@ import com.tomgibara.bits.BitWriter;
  * {@link UnaryCoding#oneTerminated} and {@link UnaryCoding#zeroTerminated}.
  *
  * @author Tom Gibara
- * @see http://en.wikipedia.org/wiki/Unary_coding
+ * @see <a href="http://en.wikipedia.org/wiki/Unary_coding">Unary coding</a>
  */
 
 public final class UnaryCoding extends UniversalCoding {

@@ -27,7 +27,7 @@ import com.tomgibara.bits.BitWriter;
  * performance can be expected in using this class.
  *
  * @author Tom Gibara
- * @see http://en.wikipedia.org/wiki/Rice_coding
+ * @see <a href="http://en.wikipedia.org/wiki/Rice_coding">Rice coding</a>
  */
 
 //TODO could define equality based on number of bits

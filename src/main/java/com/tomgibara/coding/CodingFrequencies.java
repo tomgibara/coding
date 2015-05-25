@@ -466,7 +466,7 @@ public class CodingFrequencies implements Iterable<Integer> {
 	/**
 	 * An inclusive lower bound on the values whose frequencies are recorded by
 	 * this object. This bound is not strict, i.e. no guarantees are made about
-	 * this value beyond: x < getMinimumValue() implies getFrequency(x) == 0.
+	 * this value beyond: x &lt; getMinimumValue() implies getFrequency(x) == 0.
 	 *
 	 * @return the minimum value whose frequency is recorded by this object
 	 */
@@ -478,7 +478,8 @@ public class CodingFrequencies implements Iterable<Integer> {
 	/**
 	 * An exclusive upper bound on the values whose frequencies are recorded by
 	 * this object. This bound is not strict, i.e. no guarantees are made about
-	 * this value beyond: x >= getMaximumValue() implies getFrequency(x) == 0.
+	 * this value beyond: x &gt;= getMaximumValue() implies getFrequency(x) ==
+	 * 0.
 	 *
 	 * @return the maximum value whose frequency is recorded by this object
 	 */
@@ -647,8 +648,9 @@ public class CodingFrequencies implements Iterable<Integer> {
 	/**
 	 * The computed binary information entropy associated with the given value.
 	 *
-	 * @see #getEntropy(double, int)
+	 * @param value the value for which the entropy should be computed.
 	 * @return the binary entropy associated with the value
+	 * @see #getEntropy(double, int)
 	 */
 
 	public double getBinaryEntropy(int value) {
