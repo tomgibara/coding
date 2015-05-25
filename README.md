@@ -1,7 +1,8 @@
 # coding
 A Java library for binary coding
 
-## Overview
+Overview
+--------
 
 The coding library builds on the bits library, to provide a range
 entropy codings, both universal and non.
@@ -36,3 +37,20 @@ A number of helpful classes are provided in addition to the core coding implemen
  * CodedStreams provides static utility methods for common encoding and decoding tasks.
  * CharFrequencyRecorder accumulates character frequencies from Strings and other sources of character data; useful for Huffman coding.
  * CodingFrequencies calculates ‘zero-order’ information entropy from data arrays.
+
+Usage
+-----
+
+The coding library is available from the Maven central repository:
+
+> Group ID:    `com.tomgibara.coding`
+> Artifact ID: `coding`
+> Version:     `1.0.0`
+
+The Maven dependency being:
+
+    <dependency>
+      <groupId>com.tomgibara.coding</groupId>
+      <artifactId>coding</artifactId>
+      <version>1.0.0</version>
+    </dependency>
