@@ -55,7 +55,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-	<version>3.2</version>
+        <version>3.2</version>
         <configuration>
           <encoding>UTF-8</encoding>
           <compilerVersion>1.7</compilerVersion>
@@ -137,7 +137,7 @@
     <dependency>
     	<groupId>com.tomgibara.bits</groupId>
     	<artifactId>bits</artifactId>
-    	<version>1.0.1-SNAPSHOT</version>
+    	<version>1.0.1</version>
     </dependency>
   </dependencies>
 
