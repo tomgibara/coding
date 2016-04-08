@@ -23,8 +23,7 @@ import java.util.Random;
 import com.tomgibara.bits.BitReader;
 import com.tomgibara.bits.BitVector;
 import com.tomgibara.bits.BitWriter;
-import com.tomgibara.bits.IntArrayBitReader;
-import com.tomgibara.bits.IntArrayBitWriter;
+import com.tomgibara.bits.Bits;
 
 // TODO should allow number of bits to be configured
 public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends CodingTest<C> {
@@ -35,8 +34,9 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 	}
 
 	public void testInt() {
-		IntArrayBitWriter writer = new IntArrayBitWriter(30000);
-		IntArrayBitReader reader = new IntArrayBitReader(writer.getInts(), 30000);
+		int[] ints = new int[1000];
+		BitWriter writer = Bits.writerTo(ints);
+		BitReader reader = Bits.readerFrom(ints);
 		for (int i = -10000; i < 10000; i++) {
 			checkInt(writer, reader, i);
 		}
@@ -58,7 +58,7 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 
 	}
 
-	private void checkInt(IntArrayBitWriter writer, IntArrayBitReader reader, int i) {
+	private void checkInt(BitWriter writer, BitReader reader, int i) {
 		for (C coding : getCodings()) {
 			if (isEncodableValueLimited(coding) && Math.abs(i) > getMaxEncodableValue(coding)) return;
 			writer.setPosition(0);
@@ -98,7 +98,7 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 
 	private void checkLong(BitVector v, long i) {
 		for (C coding : getCodings()) {
-			v.set(false);
+			v.clear();
 			BitWriter writer = v.openWriter();
 			if (isEncodableValueLimited(coding) && Math.abs(i) > getMaxEncodableValue(coding)) return;
 			coding.encodeLong(writer, i);
@@ -111,8 +111,9 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 
 	public void testBigInt() {
 		int bits = 4096;
-		IntArrayBitWriter writer = new IntArrayBitWriter(bits);
-		IntArrayBitReader reader = new IntArrayBitReader(writer.getInts(), writer.getSize());
+		int[] ints = new int[bits / 32];
+		BitWriter writer = Bits.writerTo(ints);
+		BitReader reader = Bits.readerFrom(ints);
 
 		for (long i = 0; i < 100L; i++) {
 			checkPositiveBigInt(writer, reader, BigInteger.valueOf(i));
@@ -130,7 +131,7 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 
 	}
 
-	private void checkPositiveBigInt(IntArrayBitWriter writer, IntArrayBitReader reader, BigInteger i) {
+	private void checkPositiveBigInt(BitWriter writer, BitReader reader, BigInteger i) {
 		for (C coding : getCodings()) {
 			if (isEncodableValueLimited(coding) && i.compareTo(BigInteger.valueOf(getMaxEncodableValue(coding))) > 0) return;
 			writer.setPosition(0);
@@ -154,14 +155,15 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 	}
 
 	private int readUnsignedInt(C c, int value) {
-		IntArrayBitWriter writer = new IntArrayBitWriter(100);
-		IntArrayBitReader reader = new IntArrayBitReader(writer.getInts(), writer.getSize());
+		int[] ints = new int[4];
+		BitWriter writer = Bits.writerTo(ints);
+		BitReader reader = Bits.readerFrom(ints);
 		c.encodeInt(writer, value);
 		writer.flush();
 		return c.decodePositiveInt(reader);
 	}
 
-	private void checkBigInt(IntArrayBitWriter writer, IntArrayBitReader reader, BigInteger i) {
+	private void checkBigInt(BitWriter writer, BitReader reader, BigInteger i) {
 		for (C coding : getCodings()) {
 			if (isEncodableValueLimited(coding) && i.abs().compareTo(BigInteger.valueOf(getMaxEncodableValue(coding))) > 0) return;
 			writer.setPosition(0);
@@ -179,8 +181,8 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 			if (isEncodableValueLimited(coding)) return;
 			int bytes = 16;
 			int[] memory = new int[bytes];
-			IntArrayBitWriter writer = new IntArrayBitWriter(memory, bytes * 8);
-			IntArrayBitReader reader = new IntArrayBitReader(memory, bytes * 8);
+			BitWriter writer = Bits.writerTo(memory, bytes * 8);
+			BitReader reader = Bits.readerFrom(memory, bytes * 8);
 			checkDouble(writer, reader, 0.0);
 			checkDouble(writer, reader, -0.0);
 			checkDouble(writer, reader, 1.0);
@@ -201,7 +203,7 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 		}
 	}
 
-	private void checkDouble(IntArrayBitWriter writer, IntArrayBitReader reader, double d) {
+	private void checkDouble(BitWriter writer, BitReader reader, double d) {
 		for (C coding : getCodings()) {
 			if (isEncodableValueLimited(coding)) return;
 			writer.setPosition(0);
@@ -218,8 +220,8 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 			if (isEncodableValueLimited(coding)) return;
 			int bytes = 16;
 			int[] memory = new int[bytes];
-			IntArrayBitWriter writer = new IntArrayBitWriter(memory, bytes * 8);
-			IntArrayBitReader reader = new IntArrayBitReader(memory, bytes * 8);
+			BitWriter writer = Bits.writerTo(memory, bytes * 8);
+			BitReader reader = Bits.readerFrom(memory, bytes * 8);
 			checkFloat(writer, reader, 0.0f);
 			checkFloat(writer, reader, -0.0f);
 			checkFloat(writer, reader, 1.0f);
@@ -240,7 +242,7 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 		}
 	}
 
-	private void checkFloat(IntArrayBitWriter writer, IntArrayBitReader reader, float f) {
+	private void checkFloat(BitWriter writer, BitReader reader, float f) {
 		for (C coding : getCodings()) {
 			if (isEncodableValueLimited(coding)) return;
 			writer.setPosition(0);
@@ -257,8 +259,8 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 			if (isEncodableValueLimited(coding)) return;
 			int bits = 10240;
 			int[] memory = new int[bits / 8];
-			IntArrayBitWriter writer = new IntArrayBitWriter(memory, bits);
-			IntArrayBitReader reader = new IntArrayBitReader(memory, bits);
+			BitWriter writer = Bits.writerTo(memory, bits);
+			BitReader reader = Bits.readerFrom(memory, bits);
 
 			Random r = new Random(0L);
 			for (int i = 0; i < 10000; i++) {
@@ -267,7 +269,7 @@ public abstract class ExtendedCodingTest<C extends ExtendedCoding> extends Codin
 		}
 	}
 
-	private void checkDecimal(IntArrayBitWriter writer, IntArrayBitReader reader, BigDecimal d) {
+	private void checkDecimal(BitWriter writer, BitReader reader, BigDecimal d) {
 		for (C coding : getCodings()) {
 			if (isEncodableValueLimited(coding)) return;
 			writer.setPosition(0);

@@ -28,7 +28,9 @@ import java.util.Random;
 
 import com.tomgibara.bits.BitReader;
 import com.tomgibara.bits.BitVector;
-import com.tomgibara.bits.BitVectorWriter;
+import com.tomgibara.bits.BitWriter;
+import com.tomgibara.bits.Bits;
+import com.tomgibara.bits.GrowableBits;
 
 import junit.framework.TestCase;
 
@@ -94,11 +96,12 @@ public class CodedStreamsTest extends TestCase {
 		default: throw new IllegalStateException();
 		}
 		
-		BitVectorWriter writer = new BitVectorWriter();
+		GrowableBits bits = Bits.growableBits();
+		BitWriter writer = bits.writer();
 		CodedWriter w = new CodedWriter(writer, coding);
-		int bits = CodedStreams.writePrimitiveArray(w, array);
-		BitVector vector = writer.toImmutableBitVector();
-		assertEquals(bits, vector.size());
+		int len = CodedStreams.writePrimitiveArray(w, array);
+		BitVector vector = bits.toImmutableBitVector();
+		assertEquals(len, vector.size());
 		
 		BitReader reader = vector.openReader();
 		CodedReader r = new CodedReader(reader, coding);

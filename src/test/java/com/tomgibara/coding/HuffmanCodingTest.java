@@ -25,12 +25,7 @@ import junit.framework.TestCase;
 
 import com.tomgibara.bits.BitReader;
 import com.tomgibara.bits.BitWriter;
-import com.tomgibara.bits.ByteArrayBitReader;
-import com.tomgibara.bits.ByteArrayBitWriter;
-import com.tomgibara.bits.InputStreamBitReader;
-import com.tomgibara.bits.IntArrayBitReader;
-import com.tomgibara.bits.IntArrayBitWriter;
-import com.tomgibara.bits.OutputStreamBitWriter;
+import com.tomgibara.bits.Bits;
 import com.tomgibara.coding.HuffmanCoding.DescendingFrequencies;
 import com.tomgibara.coding.HuffmanCoding.Dictionary;
 import com.tomgibara.coding.HuffmanCoding.UnorderedFrequencies;
@@ -64,14 +59,14 @@ public class HuffmanCodingTest extends TestCase {
 		HuffmanCoding coding = new HuffmanCoding(new UnorderedFrequencies(9L, 16L, 25L, 36L));
 		int[] sequence = {0,1,2,3,2,1,0,3,2,1,0};
 		byte[] bytes = new byte[11];
-		ByteArrayBitWriter writer = new ByteArrayBitWriter(bytes);
+		BitWriter writer = Bits.writerTo(bytes);
 		for (int i = 0; i < sequence.length; i++) {
 			coding.encodePositiveInt(writer, sequence[i]);
 		}
 		writer.flush();
 		Dictionary dictionary = coding.getDictionary();
 		coding = new HuffmanCoding(dictionary);
-		ByteArrayBitReader reader = new ByteArrayBitReader(bytes);
+		BitReader reader = Bits.readerFrom(bytes);
 		for (int i = 0; i < sequence.length; i++) {
 			assertEquals("mismatch at index " + i, sequence[i], coding.decodePositiveInt(reader));
 		}
@@ -96,13 +91,13 @@ public class HuffmanCodingTest extends TestCase {
 				message[j] = value;
 			}
  			ByteArrayOutputStream out = new ByteArrayOutputStream();
- 			BitWriter writer = new OutputStreamBitWriter(out);
+ 			BitWriter writer = Bits.writerTo(out);
  			for (int j = 0; j < message.length; j++) {
 				coding.encodePositiveInt(writer, message[j]);
 			}
  			writer.flush();
  			ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
- 			BitReader reader = new InputStreamBitReader(in);
+ 			BitReader reader = Bits.readerFrom(in);
  			for (int j = 0; j < message.length; j++) {
 				assertEquals(message[j], coding.decodePositiveInt(reader));
 			}
@@ -132,13 +127,13 @@ public class HuffmanCodingTest extends TestCase {
 		HuffmanCoding huffman = new HuffmanCoding(frequencies);
 		int[] memory = new int[1000];
 		int count = frequencies.getCorrespondence().getCount();
-		IntArrayBitWriter w = new IntArrayBitWriter(memory);
+		BitWriter w = Bits.writerTo(memory);
 		for (int i = 0; i < count; i++) {
 			huffman.encodePositiveInt(w, i);
 		}
 		w.flush();
 
-		IntArrayBitReader r = new IntArrayBitReader(memory);
+		BitReader r = Bits.readerFrom(memory);
 		for (int i = 0; i < count; i++) {
 			assertEquals(i, huffman.decodePositiveInt(r));
 		}

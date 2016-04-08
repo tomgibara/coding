@@ -20,8 +20,9 @@ import java.util.Arrays;
 import java.util.Random;
 
 import com.tomgibara.bits.BitVector;
-import com.tomgibara.bits.NullBitWriter;
-import com.tomgibara.bits.BitVector.Operation;
+import com.tomgibara.bits.BitWriter;
+import com.tomgibara.bits.Bits;
+import com.tomgibara.bits.Operation;
 
 public class RiceCodingTest extends ExtendedCodingTest<ExtendedCoding> {
 
@@ -46,15 +47,15 @@ public class RiceCodingTest extends ExtendedCodingTest<ExtendedCoding> {
 			int value = r.nextInt(10 << bits);
 			RiceCoding rc = new RiceCoding(bits);
 			GolombCoding gc = new GolombCoding(1 << bits);
-			NullBitWriter rw = new NullBitWriter();
+			BitWriter rw = Bits.writerToNothing();
 			rc.encodePositiveInt(rw, value);
-			NullBitWriter gw = new NullBitWriter();
+			BitWriter gw = Bits.writerToNothing();
 			gc.encodePositiveInt(gw, value);
 			assertEquals(rw.getPosition(), gw.getPosition());
 			BitVector v = new BitVector((int) rw.getPosition());
 			rc.encodePositiveInt(v.openWriter(), value);
-			rc.encodePositiveInt(v.openWriter(Operation.XOR, 0), value);
-			assertTrue(v.isAllZeros());
+			rc.encodePositiveInt(v.xor().openWriter(0, v.size()), value);
+			assertTrue(v.zeros().isAll());
 		}
 	}
 

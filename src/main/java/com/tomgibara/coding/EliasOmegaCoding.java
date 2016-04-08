@@ -130,7 +130,7 @@ final public class EliasOmegaCoding extends UniversalCoding {
 			} else {
 				BitVector vector = new BitVector(value + 1);
 				vector.setBit(value, true);
-				vector.rangeView(0, value).readFrom(reader);
+				vector.range(0, value).readFrom(reader);
 				if (reader.readBoolean()) throw new BitStreamException("value too large for BigInteger");
 				//TODO yuk, decrement is very inefficient here
 				return vector.toBigInteger().subtract(BigInteger.ONE);

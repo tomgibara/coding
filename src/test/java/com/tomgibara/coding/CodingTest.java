@@ -19,7 +19,7 @@ package com.tomgibara.coding;
 import com.tomgibara.bits.BitReader;
 import com.tomgibara.bits.BitVector;
 import com.tomgibara.bits.BitWriter;
-import com.tomgibara.bits.NullBitWriter;
+import com.tomgibara.bits.Bits;
 
 import junit.framework.TestCase;
 
@@ -41,7 +41,7 @@ public abstract class CodingTest<C extends Coding> extends TestCase {
 
 			int size;
 			{
-				NullBitWriter w = new NullBitWriter();
+				BitWriter w = Bits.writerToNothing();
 				for (int i = min; i <= max; i++) {
 					coding.encodePositiveInt(w, i);
 				}

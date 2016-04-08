@@ -19,8 +19,9 @@ package com.tomgibara.coding;
 import java.util.Collections;
 import java.util.Random;
 
-import com.tomgibara.bits.IntArrayBitReader;
-import com.tomgibara.bits.IntArrayBitWriter;
+import com.tomgibara.bits.BitReader;
+import com.tomgibara.bits.BitWriter;
+import com.tomgibara.bits.Bits;
 
 public class FibonacciCodingTest extends ExtendedCodingTest<ExtendedCoding> {
 
@@ -34,8 +35,8 @@ public class FibonacciCodingTest extends ExtendedCodingTest<ExtendedCoding> {
 		for (ExtendedCoding coding : getCodings()) {
 
 			int[] memory = new int[3];
-			IntArrayBitWriter writer = new IntArrayBitWriter(memory, 96);
-			IntArrayBitReader reader = new IntArrayBitReader(memory, 96);
+			BitWriter writer = Bits.writerTo(memory, 96);
+			BitReader reader = Bits.readerFrom(memory, 96);
 			for (int i = 1; i <= 12; i++) {
 				coding.encodePositiveInt(writer, i);
 				writer.setPosition(0);

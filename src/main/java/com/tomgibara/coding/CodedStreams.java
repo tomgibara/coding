@@ -30,10 +30,8 @@ import java.util.List;
 
 import com.tomgibara.bits.BitReader;
 import com.tomgibara.bits.BitStreamException;
-import com.tomgibara.bits.BitVector;
 import com.tomgibara.bits.BitWriter;
-import com.tomgibara.bits.InputStreamBitReader;
-import com.tomgibara.bits.OutputStreamBitWriter;
+import com.tomgibara.bits.Bits;
 
 /**
  * Provides static methods for reading/writing data from/to bit streams using
@@ -505,7 +503,7 @@ public final class CodedStreams {
 		OutputStream out = null;
 		try {
 			out = new BufferedOutputStream(new FileOutputStream(file), 1024);
-			BitWriter writer = new OutputStreamBitWriter(out);
+			BitWriter writer = Bits.writerTo(out);
 			CodedWriter coded = new CodedWriter(writer, coding);
 			task.writeTo(coded);
 			writer.flush();
@@ -539,7 +537,7 @@ public final class CodedStreams {
 		InputStream in = null;
 		try {
 			in = new BufferedInputStream(new FileInputStream(file), 1024);
-			InputStreamBitReader reader = new InputStreamBitReader(in);
+			BitReader reader = Bits.readerFrom(in);
 			CodedReader coded = new CodedReader(reader, coding);
 			task.readFrom(coded);
 		} catch (IOException e) {

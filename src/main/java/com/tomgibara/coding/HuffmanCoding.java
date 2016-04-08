@@ -23,8 +23,7 @@ import java.util.PriorityQueue;
 import com.tomgibara.bits.BitReader;
 import com.tomgibara.bits.BitStreamException;
 import com.tomgibara.bits.BitWriter;
-import com.tomgibara.bits.IntArrayBitReader;
-import com.tomgibara.bits.IntArrayBitWriter;
+import com.tomgibara.bits.Bits;
 
 /**
  * An implementation of Huffman coding. This is an optimized implementation that
@@ -629,8 +628,11 @@ public class HuffmanCoding implements Coding {
 	}
 
 	private Nid produceNids() {
-		IntArrayBitWriter w = new IntArrayBitWriter(codes.length);
-		IntArrayBitReader r = new IntArrayBitReader(w.getInts());
+		int[] ints = new int[codes.length];
+		BitWriter w = Bits.writerTo(ints);
+		BitReader r = Bits.readerFrom(ints);
+		//IntArrayBitWriter w = new IntArrayBitWriter(codes.length);
+		//IntArrayBitReader r = new IntArrayBitReader(w.getInts());
 		Nid root = new Nid();
 		int count = correspondence.getCount();
 		for (int i = 0; i < count; i++) {

@@ -18,8 +18,9 @@ package com.tomgibara.coding;
 
 import java.util.Collections;
 
-import com.tomgibara.bits.IntArrayBitReader;
-import com.tomgibara.bits.IntArrayBitWriter;
+import com.tomgibara.bits.BitReader;
+import com.tomgibara.bits.BitWriter;
+import com.tomgibara.bits.Bits;
 
 public class EliasDeltaCodingTest extends ExtendedCodingTest<ExtendedCoding> {
 
@@ -31,8 +32,10 @@ public class EliasDeltaCodingTest extends ExtendedCodingTest<ExtendedCoding> {
 	public void testCorrectness() {
 		for (ExtendedCoding coding : getCodings()) {
 			int[] memory = new int[1];
-			IntArrayBitWriter writer = new IntArrayBitWriter(memory, 32);
-			IntArrayBitReader reader = new IntArrayBitReader(memory, 32);
+//			IntArrayBitWriter writer = new IntArrayBitWriter(memory, 32);
+//			IntArrayBitReader reader = new IntArrayBitReader(memory, 32);
+			BitWriter writer = Bits.writerTo(memory, 32);
+			BitReader reader = Bits.readerFrom(memory, 32);
 			for (int i = 1; i <= 10; i++) {
 				writer.setPosition(0);
 				coding.encodePositiveInt(writer, i);
@@ -51,7 +54,8 @@ public class EliasDeltaCodingTest extends ExtendedCodingTest<ExtendedCoding> {
 	private void testSpeed(int size, int bound) {
 		for (ExtendedCoding coding : getCodings()) {
 			int[] memory = new int[size];
-			IntArrayBitWriter writer = new IntArrayBitWriter(memory, size * 32);
+//			IntArrayBitWriter writer = new IntArrayBitWriter(memory, size * 32);
+			BitWriter writer = Bits.writerTo(memory, size * 32);
 			int count = size;
 			long start = System.currentTimeMillis();
 			for (int i = 0; i < count; i++) {
@@ -64,7 +68,8 @@ public class EliasDeltaCodingTest extends ExtendedCodingTest<ExtendedCoding> {
 			long finish = System.currentTimeMillis();
 			System.out.println(finish-start + " ms to write first " + count + " integers");
 
-			IntArrayBitReader reader = new IntArrayBitReader(memory, writer.getSize());
+//			IntArrayBitReader reader = new IntArrayBitReader(memory, writer.getSize());
+			BitReader reader = Bits.readerFrom(memory, size * 32);
 			start = System.currentTimeMillis();
 			for (int i = 0; i < count; i++) {
 				int v = coding.decodePositiveInt(reader);

@@ -19,7 +19,8 @@ package com.tomgibara.coding;
 import java.util.Arrays;
 
 import com.tomgibara.bits.BitVector;
-import com.tomgibara.bits.NullBitWriter;
+import com.tomgibara.bits.BitWriter;
+import com.tomgibara.bits.Bits;
 
 public class GolombCodingTest extends ExtendedCodingTest<ExtendedCoding> {
 
@@ -48,7 +49,7 @@ public class GolombCodingTest extends ExtendedCodingTest<ExtendedCoding> {
 
 	private static void test(int value, int divisor, String expected) {
 		GolombCoding coding = new GolombCoding(divisor);
-		NullBitWriter w = new NullBitWriter();
+		BitWriter w = Bits.writerToNothing();
 		coding.encodePositiveInt(w, value);
 		BitVector v = new BitVector((int) w.getPosition());
 		coding.encodePositiveInt(v.openWriter(), value);
